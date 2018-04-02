@@ -1,0 +1,11 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: chapter1
+  swagger:
+    base-package: com.battcn
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes: 192.168.0.133:9300
