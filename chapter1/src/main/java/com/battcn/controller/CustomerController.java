@@ -1,10 +1,12 @@
 package com.battcn.controller;
 
+import com.battcn.entity.Book;
 import com.battcn.entity.Customer;
 import com.battcn.service.CustomerService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,5 +44,10 @@ public class CustomerController {
     @GetMapping("/{first_name}")
     public List<Customer> findByFirstName(@PathVariable("first_name") String firstName) {
         return customerService.findByFirstName(firstName);
+    }
+
+    @GetMapping("/book")
+    public Page<Book> findBook(@RequestParam("content") String content) {
+        return customerService.searchBook(content);
     }
 }
