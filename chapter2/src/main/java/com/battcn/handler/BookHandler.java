@@ -43,9 +43,7 @@ public class BookHandler {
             // TODO 通知 MQ 消息已被成功消费,可以ACK了
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-
+            // TODO 如果报错了,那么我们可以进行容错处理,比如转移当前消息进入其它队列
         }
     }
 
