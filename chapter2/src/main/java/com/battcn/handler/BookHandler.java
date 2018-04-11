@@ -31,9 +31,21 @@ public class BookHandler {
      * @param book 监听的内容
      */
     @RabbitListener(queues = {RabbitConfig.DEFAULT_BOOK_QUEUE})
-    public void listenerAutoAck(Book book) {
+    public void listenerAutoAck(Book book, Message message, Channel channel) {
         // TODO 如果手动ACK,消息会被监听消费,但是消息在队列中依旧存在,如果 未配置 acknowledge-mode 默认是会在消费完毕后自动ACK掉
-        log.info("[listenerAutoAck 监听的消息] - [{}]", book.toString());
+        final long deliveryTag = message.getMessageProperties().getDeliveryTag();
+        try {
+            log.info("[listenerAutoAck 监听的消息] - [{}]", book.toString());
+            // TODO 通知 MQ 消息已被成功消费,可以ACK了
+            channel.basicAck(deliveryTag, false);
+        } catch (IOException e) {
+            try {
+                // TODO 处理失败,重新压如MQ
+                channel.basicRecover();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 
     @RabbitListener(queues = {RabbitConfig.MANUAL_BOOK_QUEUE})
