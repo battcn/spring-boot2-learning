@@ -7,10 +7,8 @@ import com.battcn.repository.CustomerRepository;
 import com.battcn.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
-import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,18 +36,6 @@ public class CustomerServiceImpl implements CustomerService {
      */
     private static final Integer PAGE_NUMBER = 0;
     private static final Integer PAGE_SIZE = 10;
-
-    /**
-     * 搜索模式
-     * 权重分求和模式
-     */
-    private static final String SCORE_MODE_SUM = "sum";
-    /**
-     * 由于无相关性的分值默认为 1 ，设置权重分最小值为 10
-     */
-    private static final Float MIN_SCORE = 10.0F;
-
-    private static final Pageable PAGEABLE = PageRequest.of(PAGE_NUMBER, PAGE_SIZE);
 
     @Autowired
     public CustomerServiceImpl(CustomerRepository customerRepository, BookRepository bookRepository) {
