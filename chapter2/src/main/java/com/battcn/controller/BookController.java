@@ -2,6 +2,7 @@ package com.battcn.controller;
 
 import com.battcn.config.RabbitConfig;
 import com.battcn.entity.Book;
+import com.battcn.handler.BookHandler;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,13 @@ public class BookController {
         this.rabbitTemplate = rabbitTemplate;
     }
 
+    /**
+     * this.rabbitTemplate.convertAndSend(RabbitConfig.DEFAULT_BOOK_QUEUE, book); 对应 {@link BookHandler#listenerAutoAck}
+     * this.rabbitTemplate.convertAndSend(RabbitConfig.MANUAL_BOOK_QUEUE, book); 对应 {@link BookHandler#listenerManualAck}
+     * this.rabbitTemplate.convertAndSend(RabbitConfig.REGISTER_DELAY_EXCHANGE, RabbitConfig.DELAY_ROUTING_KEY, book); 对应 {@link BookHandler#listenerDelayQueue}
+     *
+     * @param book
+     */
     @ApiOperation("添加消息")
     @PostMapping
     public void defaultMessage(@RequestBody Book book) {

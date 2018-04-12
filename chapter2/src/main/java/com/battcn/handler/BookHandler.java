@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 public class BookHandler {
 
     /**
+     *
      * 默认情况下,如果没有配置手动ACK, 那么Spring Data AMQP 会在消息消费完毕后自动帮我们去ACK
      * 存在问题：如果报错了,消息不会丢失,但是会无限循环消费,一直报错,如果开启了错误日志很容易就吧磁盘空间耗完
      * 解决方案：手动ACK,或者try-catch 然后在 catch 里面讲错误的消息转移到其它的系列中去
@@ -29,6 +30,7 @@ public class BookHandler {
      * simple:
      * acknowledge-mode: manual
      *
+     * TODO 该方案是 spring-boot-data-amqp 默认的方式,只是不太推荐。具体看下面两种方式
      * @param book 监听的内容
      */
     @RabbitListener(queues = {RabbitConfig.DEFAULT_BOOK_QUEUE})
