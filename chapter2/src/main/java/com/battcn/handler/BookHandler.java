@@ -3,7 +3,8 @@ package com.battcn.handler;
 import com.battcn.config.RabbitConfig;
 import com.battcn.entity.Book;
 import com.rabbitmq.client.Channel;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -17,9 +18,10 @@ import java.time.LocalDateTime;
  * @author Levin
  * @since 2018/4/11 0011
  */
-@Slf4j
 @Component
 public class BookHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(BookHandler.class);
 
     /**
      *

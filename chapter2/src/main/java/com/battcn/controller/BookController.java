@@ -5,7 +5,8 @@ import com.battcn.entity.Book;
 import com.battcn.handler.BookHandler;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.AbstractJavaTypeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,12 @@ import java.time.LocalDateTime;
  * @author Levin
  * @since 2018/4/2 0002
  */
-@Slf4j
 @RestController
 @RequestMapping(value = "/api/books")
 @Api(value = "消息队列", description = "消息队列", tags = {"1.0"})
 public class BookController {
+
+    private static final Logger log = LoggerFactory.getLogger(BookController.class);
 
     private final RabbitTemplate rabbitTemplate;
 

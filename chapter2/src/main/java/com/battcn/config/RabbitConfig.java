@@ -1,7 +1,8 @@
 package com.battcn.config;
 
 import com.google.common.collect.Maps;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -16,9 +17,10 @@ import java.util.Map;
  * @author Levin
  * @since 2018/4/11 0011
  */
-@Slf4j
 @Configuration
 public class RabbitConfig {
+
+    private static final Logger log = LoggerFactory.getLogger(RabbitConfig.class);
 
     @Bean
     public RabbitTemplate rabbitTemplate(CachingConnectionFactory connectionFactory) {
