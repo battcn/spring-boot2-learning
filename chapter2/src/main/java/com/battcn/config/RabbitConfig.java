@@ -70,6 +70,14 @@ public class RabbitConfig {
 
     /**
      * 延迟队列配置
+     * <p>
+     * 1、params.put("x-message-ttl", 5 * 1000);
+     * TODO 第一种方式是直接设置 Queue 延迟时间 但如果直接给队列设置过期时间,这种做法不是很灵活,（当然二者是兼容的,默认是时间小的优先）
+     * 2、rabbitTemplate.convertAndSend(book, message -> {
+     * message.getMessageProperties().setExpiration(2 * 1000 + "");
+     * return message;
+     * });
+     * TODO 第二种就是每次发送消息动态设置延迟时间,这样我们可以灵活控制
      **/
     @Bean
     public Queue delayProcessQueue() {
