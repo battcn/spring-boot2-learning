@@ -8,7 +8,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -50,83 +49,65 @@ public class RabbitConfig {
 
 
     /**
-     * 消息交换机的名字
+     * 延迟队列 TTL 名称
      */
-    public static final String BOOK_DELAY_EXCHANGE = "book_delay_exchange";
-
+    private static final String DELAY_QUEUE_PER_QUEUE_TTL_NAME = "DELAY_QUEUE_PER_QUEUE_TTL_NAME";
+    /**
+     * DLX，dead letter发送到的exchange
+     */
+    public static final String DELAY_EXCHANGE_NAME = "DELAY_EXCHANGE_NAME";
     /**
      * routing key 名称
      */
-    public static final String BOOK_DELAY_ROUTING = "book_delay_routing";
+    public static final String DELAY_PROCESS_QUEUE_NAME = "DELAY_PROCESS_QUEUE_NAME";
 
-    public static final String REGISTER_EXCHANGE_NAME = "test.user.register.exchange";
-    public static final String REGISTER_DELAY_QUEUE_NAME = "test.user.register.delay.queue";
 
-    public static final String REGISTER_DELAY_EXCHANGE_NAME = "test.user.register.delay.exchange";
-    public static final String REGISTER_QUEUE_NAME = "test.user.register.queue";
+    public static final String REGISTER_QUEUE_NAME = "test.book.register.queue";
+    public static final String REGISTER_EXCHANGE_NAME = "test.book.register.exchange";
+    public static final String REGISTER_PROCESS_QUEUE_NAME = "all";
 
     /**
      * 延迟队列配置
      **/
-    @Bean(name = "registerDelayQueue")
-    public Queue registerDelayQueue() {
+    @Bean
+    public Queue delayProcessQueue() {
         Map<String, Object> params = Maps.newHashMap();
+        // x-dead-letter-exchange 声明了队列里的死信转发到的DLX名称，
         params.put("x-dead-letter-exchange", REGISTER_EXCHANGE_NAME);
-        params.put("x-dead-letter-routing-key", "all");
-        return new Queue(REGISTER_DELAY_QUEUE_NAME, true, false, false, params);
+        // x-dead-letter-routing-key 声明了这些死信在转发时携带的 routing-key 名称。
+        params.put("x-dead-letter-routing-key", REGISTER_PROCESS_QUEUE_NAME);
+        return new Queue(DELAY_QUEUE_PER_QUEUE_TTL_NAME, true, false, false, params);
     }
 
     @Bean
-    public DirectExchange registerDelayExchange() {
-        return new DirectExchange(REGISTER_DELAY_EXCHANGE_NAME);
+    public DirectExchange delayExchange() {
+        return new DirectExchange(DELAY_EXCHANGE_NAME);
     }
 
     @Bean
-    public Binding registerDelayBinding() {
-        return BindingBuilder.bind(registerDelayQueue()).to(registerDelayExchange()).with("");
+    public Binding dlxBinding() {
+        return BindingBuilder.bind(delayProcessQueue()).to(delayExchange()).with(DELAY_PROCESS_QUEUE_NAME);
+    }
+
+
+    @Bean
+    public Queue registerBookQueue() {
+        return new Queue(REGISTER_QUEUE_NAME, true);
     }
 
     /**
      * 指标消费队列配置
      **/
     @Bean
-    public TopicExchange registerTopicExchange() {
+    public TopicExchange registerBookTopicExchange() {
         return new TopicExchange(REGISTER_EXCHANGE_NAME);
     }
 
     @Bean
-    public Binding registerBinding() {
-        return BindingBuilder.bind(registerQueue()).to(registerTopicExchange()).with("all");
+    public Binding registerBookBinding() {
+        // TODO 如果要让延迟队列之间有关联,这里的 routingKey 和 绑定的交换机很关键
+        return BindingBuilder.bind(registerBookQueue()).to(registerBookTopicExchange()).with(REGISTER_PROCESS_QUEUE_NAME);
     }
 
-    @Bean(name = "registerQueue")
-    public Queue registerQueue() {
-        return new Queue(REGISTER_QUEUE_NAME, true);
-    }
-
-
-    /*@Bean
-    public Queue delayBookQueue() {
-        return QueueBuilder.durable(DELAY_BOOK_QUEUE)
-                // DLX，dead letter发送到的exchange
-                .withArgument("x-dead-letter-exchange", BOOK_DELAY_EXCHANGE)
-                // dead letter携带的routing key
-                .withArgument("x-dead-letter-routing-key", "all")
-                .withArgument("x-message-ttl", 2 * 1000)
-                .build();
-    }
-
-
-    @Bean
-    public DirectExchange delayExchange() {
-        // 只需简单一步开启延时消息，就是这么简单
-        return new DirectExchange(BOOK_DELAY_EXCHANGE);
-    }
-
-
-    @Bean
-    public Binding bindingNotify(Queue delayBookQueue, DirectExchange delayExchange) {
-        return BindingBuilder.bind(delayBookQueue).to(delayExchange).with(BOOK_DELAY_ROUTING);
-    }*/
 
 }

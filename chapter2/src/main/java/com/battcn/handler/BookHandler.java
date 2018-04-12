@@ -59,7 +59,7 @@ public class BookHandler {
         }
     }
 
-    @RabbitListener(queues = {RabbitConfig.DELAY_BOOK_QUEUE, RabbitConfig.REGISTER_QUEUE_NAME})
+    @RabbitListener(queues = {RabbitConfig.REGISTER_QUEUE_NAME})
     public void listenerDelayQueue(Book book, Message message, Channel channel) {
         log.info("[listenerDelayQueue 监听的消息] - [{}]", book.toString());
         try {
