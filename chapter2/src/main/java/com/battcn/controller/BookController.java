@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+
 /**
  * @author Levin
  * @since 2018/4/2 0002
@@ -36,11 +38,13 @@ public class BookController {
         this.rabbitTemplate.convertAndSend(RabbitConfig.DEFAULT_BOOK_QUEUE, book);
         this.rabbitTemplate.convertAndSend(RabbitConfig.MANUAL_BOOK_QUEUE, book);
         // 添加延时队列
-        this.rabbitTemplate.convertAndSend(RabbitConfig.DELAY_EXCHANGE_NAME, RabbitConfig.DELAY_PROCESS_QUEUE_NAME, book, message -> {
+
+        this.rabbitTemplate.convertAndSend(RabbitConfig.REGISTER_DELAY_EXCHANGE, RabbitConfig.DELAY_ROUTING_KEY, book, message -> {
             message.getMessageProperties().setHeader(AbstractJavaTypeMapper.DEFAULT_CONTENT_CLASSID_FIELD_NAME, Book.class.getName());
-            message.getMessageProperties().setExpiration(2 * 1000 + "");
+            message.getMessageProperties().setExpiration(5 * 1000 + "");
             return message;
         });
+        log.info("[发送时间] - [{}]", LocalDateTime.now());
     }
 
 

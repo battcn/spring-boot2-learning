@@ -51,20 +51,22 @@ public class RabbitConfig {
     /**
      * 延迟队列 TTL 名称
      */
-    private static final String DELAY_QUEUE_PER_QUEUE_TTL_NAME = "DELAY_QUEUE_PER_QUEUE_TTL_NAME";
+    private static final String REGISTER_DELAY_QUEUE = "dev.book.register.delay.queue";
     /**
-     * DLX，dead letter发送到的exchange
+     * DLX，dead letter发送到的 exchange
+     * TODO 此处的 exchange 很重要,具体消息就是发送到该交换机的
      */
-    public static final String DELAY_EXCHANGE_NAME = "DELAY_EXCHANGE_NAME";
+    public static final String REGISTER_DELAY_EXCHANGE = "dev.book.register.delay.exchange";
     /**
      * routing key 名称
+     * TODO 此处的 routingKey 很重要要,具体消息发送在该 routingKey 的
      */
-    public static final String DELAY_PROCESS_QUEUE_NAME = "DELAY_PROCESS_QUEUE_NAME";
+    public static final String DELAY_ROUTING_KEY = "";
 
 
-    public static final String REGISTER_QUEUE_NAME = "test.book.register.queue";
-    public static final String REGISTER_EXCHANGE_NAME = "test.book.register.exchange";
-    public static final String REGISTER_PROCESS_QUEUE_NAME = "all";
+    public static final String REGISTER_QUEUE_NAME = "dev.book.register.queue";
+    public static final String REGISTER_EXCHANGE_NAME = "dev.book.register.exchange";
+    public static final String ROUTING_KEY = "all";
 
     /**
      * 延迟队列配置
@@ -75,18 +77,18 @@ public class RabbitConfig {
         // x-dead-letter-exchange 声明了队列里的死信转发到的DLX名称，
         params.put("x-dead-letter-exchange", REGISTER_EXCHANGE_NAME);
         // x-dead-letter-routing-key 声明了这些死信在转发时携带的 routing-key 名称。
-        params.put("x-dead-letter-routing-key", REGISTER_PROCESS_QUEUE_NAME);
-        return new Queue(DELAY_QUEUE_PER_QUEUE_TTL_NAME, true, false, false, params);
+        params.put("x-dead-letter-routing-key", ROUTING_KEY);
+        return new Queue(REGISTER_DELAY_QUEUE, true, false, false, params);
     }
 
     @Bean
     public DirectExchange delayExchange() {
-        return new DirectExchange(DELAY_EXCHANGE_NAME);
+        return new DirectExchange(REGISTER_DELAY_EXCHANGE);
     }
 
     @Bean
     public Binding dlxBinding() {
-        return BindingBuilder.bind(delayProcessQueue()).to(delayExchange()).with(DELAY_PROCESS_QUEUE_NAME);
+        return BindingBuilder.bind(delayProcessQueue()).to(delayExchange()).with(DELAY_ROUTING_KEY);
     }
 
 
@@ -106,7 +108,7 @@ public class RabbitConfig {
     @Bean
     public Binding registerBookBinding() {
         // TODO 如果要让延迟队列之间有关联,这里的 routingKey 和 绑定的交换机很关键
-        return BindingBuilder.bind(registerBookQueue()).to(registerBookTopicExchange()).with(REGISTER_PROCESS_QUEUE_NAME);
+        return BindingBuilder.bind(registerBookQueue()).to(registerBookTopicExchange()).with(ROUTING_KEY);
     }
 
 
