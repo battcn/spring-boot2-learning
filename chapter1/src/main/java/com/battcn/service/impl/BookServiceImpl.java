@@ -1,10 +1,8 @@
 package com.battcn.service.impl;
 
 import com.battcn.entity.Book;
-import com.battcn.entity.Customer;
 import com.battcn.repository.BookRepository;
-import com.battcn.repository.CustomerRepository;
-import com.battcn.service.CustomerService;
+import com.battcn.service.BookService;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -18,7 +16,6 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author Levin
@@ -26,9 +23,8 @@ import java.util.UUID;
  */
 @Slf4j
 @Service
-public class CustomerServiceImpl implements CustomerService {
+public class BookServiceImpl implements BookService {
 
-    private final CustomerRepository customerRepository;
     private final BookRepository bookRepository;
 
     /**
@@ -38,25 +34,25 @@ public class CustomerServiceImpl implements CustomerService {
     private static final Integer PAGE_SIZE = 10;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository, BookRepository bookRepository) {
-        this.customerRepository = customerRepository;
+    public BookServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
+
     @Override
-    public List<Customer> findByFirstName(String firstName) {
-        return customerRepository.findByFirstName(firstName);
+    public List<Book> findByName(String name) {
+        return this.bookRepository.findByName(name);
     }
 
     @Override
-    public List<Customer> findByLastName(String lastName) {
-        return customerRepository.findByLastName(lastName);
+    public void deleteByBookNo(String bookNo) {
+        // TODO 这里采用的都是内置封装好的语法,简单粗暴
+        this.bookRepository.deleteById(bookNo);
     }
 
     @Override
-    public Customer save(Customer customer) {
-        customer.setId(UUID.randomUUID().toString().replace("-", "").toUpperCase());
-        return customerRepository.save(customer);
+    public Book save(Book book) {
+        return this.bookRepository.save(book);
     }
 
     @Override
@@ -68,6 +64,7 @@ public class CustomerServiceImpl implements CustomerService {
         QueryBuilder queryBuilder = QueryBuilders.boolQuery().should(name).should(author).should(description);
         final NativeSearchQuery build = new NativeSearchQueryBuilder().withQuery(queryBuilder).withPageable(pageable).build();
         log.info("\n" + build.getQuery().toString());
+        // TODO  与 bookRepository.searchBook(searchContent); 结果一致,只是一种自己构建的查询,一种用语法直接查询.相比起来这种方式更优雅
         return bookRepository.search(build);
     }
 

@@ -13,6 +13,12 @@ import java.util.List;
 @Repository
 public interface BookRepository extends ElasticsearchRepository<Book, String> {
 
+    /**
+     * 直接构建查询语句查询
+     *
+     * @param searchContent 内容
+     * @return 查询结果
+     */
     @Query("{\n" +
             "    \"bool\": {\n" +
             "      \"should\": [\n" +
@@ -44,5 +50,13 @@ public interface BookRepository extends ElasticsearchRepository<Book, String> {
             "    }\n" +
             "}")
     List<Book> searchBook(String searchContent);
+
+    /**
+     * 根据书籍名称查询
+     *
+     * @param name 姓
+     * @return 结果
+     */
+    List<Book> findByName(String name);
 
 }
