@@ -3,7 +3,6 @@ package com.battcn.controller;
 import com.battcn.entity.Book;
 import com.battcn.service.BookService;
 import io.swagger.annotations.Api;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +13,6 @@ import java.util.List;
  * @author Levin
  * @since 2018/4/2 0002
  */
-@Slf4j
 @RestController
 @RequestMapping(value = "/api/books")
 @Api(value = "人员管理", description = "人员管理", tags = {"2.0"})

@@ -3,10 +3,11 @@ package com.battcn.service.impl;
 import com.battcn.entity.Book;
 import com.battcn.repository.BookRepository;
 import com.battcn.service.BookService;
-import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,9 +22,10 @@ import java.util.List;
  * @author Levin
  * @since 2018/4/2 0002
  */
-@Slf4j
 @Service
 public class BookServiceImpl implements BookService {
+
+    private static final Logger log = LoggerFactory.getLogger(BookServiceImpl.class);
 
     private final BookRepository bookRepository;
 
