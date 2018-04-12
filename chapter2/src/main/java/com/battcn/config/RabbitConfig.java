@@ -31,9 +31,8 @@ public class RabbitConfig {
         return rabbitTemplate;
     }
 
-    public static final String DEFAULT_BOOK_QUEUE = "DEFAULT_BOOK_QUEUE";
-    public static final String MANUAL_BOOK_QUEUE = "MANUAL_BOOK_QUEUE";
-    public static final String DELAY_BOOK_QUEUE = "DELAY_BOOK_QUEUE";
+    public static final String DEFAULT_BOOK_QUEUE = "dev.book.register.default.queue";
+    public static final String MANUAL_BOOK_QUEUE = "dev.book.register.manual.queue";
 
     @Bean
     public Queue defaultBookQueue() {
