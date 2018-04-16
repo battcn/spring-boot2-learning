@@ -1,0 +1,11 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: chapter3
+  swagger:
+    base-package: com.battcn
+  redis:
+    timeout: 10000
+    password: battcn
+    host: localhost
