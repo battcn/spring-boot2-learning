@@ -8,7 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>chapter1</name>
+    <name>chapter2</name>
     <description>我的用第一个SpringBoot工程</description>
 
     <!--版本采用的是最新的 2.0.1.RELEASE TODO 开发中请记得版本一定要选择 RELEASE 哦 -->
