@@ -25,7 +25,6 @@
         <skipTests>true</skipTests>
     </properties>
 
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
