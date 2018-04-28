@@ -9,7 +9,7 @@
         <relativePath/>
     </parent>
     <groupId>com.battcn</groupId>
-    <artifactId>chapter3</artifactId>
+    <artifactId>chapter_n3</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>battcn-boot</name>
@@ -26,7 +26,7 @@
         <dependency>
             <groupId>com.battcn</groupId>
             <artifactId>spring-boot-starter-swagger</artifactId>
-            <version>1.4.4-RELEASE</version>
+            <version>1.4.5-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
