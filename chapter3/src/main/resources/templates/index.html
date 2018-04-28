@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- 可以看到 thymeleaf 是通过在标签里添加额外属性来绑定动态数据的 -->
+    <title th:text="${title}">Title</title>
+</head>
+<body>
+    <h1 th:text="${desc}">Hello World</h1>
+    <h2>=====作者信息=====</h2>
+        <p th:text="${author?.name}"></p>
+        <p th:text="${author?.age}"></p>
+        <p th:text="${author?.email}"></p>
+</body>
+</html>
