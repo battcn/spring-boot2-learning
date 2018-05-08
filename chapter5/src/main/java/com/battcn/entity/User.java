@@ -1,5 +1,6 @@
 package com.battcn.entity;
 
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import javax.persistence.Entity;
@@ -15,7 +16,7 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 8655851615465363473L;
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
     private String password;
