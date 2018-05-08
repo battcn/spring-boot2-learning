@@ -1,10 +1,7 @@
 package com.battcn.entity;
 
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import java.io.Serializable;
 
 /**
@@ -20,6 +17,11 @@ public class User implements Serializable {
     private Long id;
     private String username;
     private String password;
+    /**
+     * TODO 忽略该字段的映射
+     */
+    @Transient
+    private String  email;
 
     // TODO  省略get set
 
@@ -45,6 +47,14 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public User() {
