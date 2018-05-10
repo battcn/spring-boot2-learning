@@ -12,8 +12,10 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import java.io.Serializable;
 
 /**
+ * TODO 修改database
+ *
  * @author Levin
- * @since 2018/3/22 0022
+ * @since 2018/5/10 0022
  */
 @Configuration
 @AutoConfigureAfter(RedisAutoConfiguration.class)
@@ -24,8 +26,6 @@ public class RedisCacheAutoConfiguration {
         RedisTemplate<String, Serializable> template = new RedisTemplate<>();
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-        // TODO  由于spring-data-redis2 弃用了 jedis 想动态改变database需要 用 LettuceConnectionFactory
-        redisConnectionFactory.setDatabase(5);
         template.setConnectionFactory(redisConnectionFactory);
         return template;
     }
