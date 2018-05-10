@@ -33,6 +33,7 @@ public class Chapter8ApplicationTest {
 
     @Test
     public void get() {
+        // TODO 测试是否线程安全
         for (int i = 0; i < 100; i++) {
             new Thread(() -> stringRedisTemplate.opsForValue().increment("kk", 1)).start();
         }
