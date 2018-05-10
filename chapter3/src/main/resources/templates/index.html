@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <!-- 可以看到 thymeleaf 是通过在标签里添加额外属性来绑定动态数据的 -->
     <title th:text="${title}">Title</title>
+    <!-- 在/resources/static/js目录下创建一个hello.js 用如下语法依赖即可-->
     <script type="text/javascript" th:src="@{/js/hello.js}"></script>
 </head>
 <body>
