@@ -12,6 +12,9 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.Serializable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.IntStream;
 
 /**
  * @author Levin
@@ -33,10 +36,11 @@ public class Chapter8ApplicationTest {
 
     @Test
     public void get() {
-        // TODO 测试是否线程安全
-        for (int i = 0; i < 100; i++) {
-            new Thread(() -> stringRedisTemplate.opsForValue().increment("kk", 1)).start();
-        }
+        // TODO 测试线程安全
+        ExecutorService executorService = Executors.newFixedThreadPool(1000);
+        IntStream.range(0, 1000).forEach(i ->
+                executorService.execute(() -> stringRedisTemplate.opsForValue().increment("kk", 1))
+        );
         stringRedisTemplate.opsForValue().set("k1", "v1");
         final String k1 = stringRedisTemplate.opsForValue().get("k1");
         log.info("[字符缓存结果] - [{}]", k1);
