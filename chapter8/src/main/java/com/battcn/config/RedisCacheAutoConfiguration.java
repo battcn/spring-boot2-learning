@@ -22,7 +22,7 @@ import java.io.Serializable;
 @AutoConfigureAfter(RedisAutoConfiguration.class)
 public class RedisCacheAutoConfiguration {
 
-    @Bean
+    /*@Bean
     public RedisTemplate<String, Serializable> redisCacheTemplate(LettuceConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Serializable> template = new RedisTemplate<>();
         template.setKeySerializer(new StringRedisSerializer());
@@ -31,5 +31,5 @@ public class RedisCacheAutoConfiguration {
         redisConnectionFactory.setDatabase(5);
         template.setConnectionFactory(redisConnectionFactory);
         return template;
-    }
+    }*/
 }

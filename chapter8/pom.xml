@@ -5,16 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.0.RELEASE</version>
+        <version>2.0.1.RELEASE</version>
         <relativePath/>
     </parent>
     <groupId>com.battcn</groupId>
-    <artifactId>chapter_n3</artifactId>
+    <artifactId>chapter8</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>battcn-boot</name>
-    <description>Demo project for Spring Boot</description>
-
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,17 +21,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.battcn</groupId>
-            <artifactId>spring-boot-starter-swagger</artifactId>
-            <version>1.4.5-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
