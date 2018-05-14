@@ -19,15 +19,15 @@ public interface UserService {
     /**
      * 添加
      *
-     * @param key key值
+     * @param id key值
      * @return 返回结果
      */
-    User get(Long key);
+    User get(Long id);
 
     /**
      * 删除
      *
-     * @param key key值
+     * @param id key值
      */
-    void delete(Long key);
+    void delete(Long id);
 }

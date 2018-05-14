@@ -30,15 +30,15 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    @Cacheable(value = "user", key = "#key")
+    @Cacheable(value = "user", key = "#id")
     @Override
-    public User get(Long key) {
+    public User get(Long id) {
         // TODO 我们就假设它是从数据库读取出来的
         log.info("进入 get 方法");
-        return DATABASES.get(key);
+        return DATABASES.get(id);
     }
 
-    @CachePut(value = "user", key = "#user.id")
+    @CachePut(value = "user", key = "#user.id", condition = "#user.username.length() < 10")
     @Override
     public User saveOrUpdate(User user) {
         DATABASES.put(user.getId(), user);
@@ -46,10 +46,10 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    @CacheEvict(value = "user", key = "#key")
+    @CacheEvict(value = "user", key = "#id", allEntries = true, beforeInvocation = true)
     @Override
-    public void delete(Long key) {
-        DATABASES.remove(key);
+    public void delete(Long id) {
+        DATABASES.remove(id);
         log.info("进入 delete 方法");
     }
 }
