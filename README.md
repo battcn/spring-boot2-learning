@@ -7,3 +7,4 @@
 - **chapter6：** 基于 spring-boot2.x 整合了 mybatis
 - **chapter7：** 基于 spring-boot2.x 整合了 mybatis，通用mapper插件，分页插件
 - **chapter8：** 基于 spring-boot2.x 整合了 Lettuce Redis
+- **chapter9：** 基于 spring-boot2.x 整合了 Spring Cache 与 Redis
