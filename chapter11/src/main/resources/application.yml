@@ -1,10 +1,6 @@
 server:
   port: 8080
 spring:
-  application:
-    name: chapter1
-  swagger:
-    base-package: com.battcn
   rabbitmq:
     username: battcn
     password: battcn
