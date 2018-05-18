@@ -10,3 +10,4 @@
 - **chapter9：** 基于 spring-boot2.x 整合了 Spring Cache 与 Redis
 - **chapter10：** 基于 spring-boot2.x 整合了 `swagger-spring-boot-starter` 在线开发调试
 - **chapter11：** 基于 spring-boot2.x 整合了 `RabbitMQ` 案例
+- **chapter12：** 基于 spring-boot2.x 整合了 `RabbitMQ 延迟队列` 案例
