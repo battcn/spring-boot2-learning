@@ -8,10 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.AbstractJavaTypeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +17,7 @@ import java.time.LocalDateTime;
  * @since 2018/4/2 0002
  */
 @RestController
-@RequestMapping(value = "/api/books")
+@RequestMapping(value = "/books")
 public class BookController {
 
     private static final Logger log = LoggerFactory.getLogger(BookController.class);
@@ -35,7 +32,7 @@ public class BookController {
     /**
      * this.rabbitTemplate.convertAndSend(RabbitConfig.REGISTER_DELAY_EXCHANGE, RabbitConfig.DELAY_ROUTING_KEY, book); 对应 {@link BookHandler#listenerDelayQueue}
      */
-    @PostMapping
+    @GetMapping
     public void defaultMessage(@RequestBody Book book) {
         // 添加延时队列
         this.rabbitTemplate.convertAndSend(RabbitConfig.REGISTER_DELAY_EXCHANGE, RabbitConfig.DELAY_ROUTING_KEY, book, message -> {
@@ -47,6 +44,4 @@ public class BookController {
         });
         log.info("[发送时间] - [{}]", LocalDateTime.now());
     }
-
-
 }
