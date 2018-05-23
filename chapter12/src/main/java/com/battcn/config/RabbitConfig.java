@@ -33,9 +33,6 @@ public class RabbitConfig {
         return rabbitTemplate;
     }
 
-    public static final String DEFAULT_BOOK_QUEUE = "dev.book.register.default.queue";
-    public static final String MANUAL_BOOK_QUEUE = "dev.book.register.manual.queue";
-
     /**
      * 延迟队列 TTL 名称
      */
