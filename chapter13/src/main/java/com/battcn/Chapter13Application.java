@@ -16,13 +16,13 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
  */
 @SpringBootApplication
 @EnableAdminServer
-public class AdminServerApplication {
+public class Chapter13Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(AdminServerApplication.class, args);
+        SpringApplication.run(Chapter13Application.class, args);
     }
 
-    @Profile("insecure")
+    @Profile("dev")
     @Configuration
     public static class SecurityPermitAllConfig extends WebSecurityConfigurerAdapter {
         @Override
@@ -32,7 +32,7 @@ public class AdminServerApplication {
         }
     }
 
-    @Profile("secure")
+    @Profile("prod")
     @Configuration
     public static class SecuritySecureConfig extends WebSecurityConfigurerAdapter {
         private final String adminContextPath;
