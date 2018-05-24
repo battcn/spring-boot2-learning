@@ -1,0 +1,55 @@
+info:
+  blog-url: "http://blog.battcn.com"
+  author: Levin
+
+logging:
+  file: "./target/admin-server.log"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: /    #比较重要,因为默认的 /actuator spring-boot-admin 扫描不到
+  endpoint:
+    health:
+      show-details: ALWAYS
+      enabled: true
+spring:
+  application:
+    name: chapter13
+  boot:
+    admin:
+      client:
+        url: http://localhost:8080
+        instance:
+          prefer-ip: true
+  profiles:
+    active:
+      - secure
+      #- insecure
+
+# 不用认证
+---
+spring:
+  profiles: insecure
+
+# 需要认证
+---
+spring:
+  profiles: secure
+  security:
+    user:
+      name: "battcn"          #登陆所需的账号
+      password: "battcn"      #登陆所需的密码
+  boot:
+    admin:
+      client:
+        # 便于客户端可以在受保护的服务器上注册api
+        username: "battcn"
+        password: "battcn"
+        instance:
+          metadata:
+            # 便服务器可以访问受保护的客户端端点
+            user.name: "battcn"
+            user.password: "battcn"
