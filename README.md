@@ -11,3 +11,4 @@
 - **chapter10：** 基于 spring-boot2.x 整合了 `swagger-spring-boot-starter` 在线开发调试
 - **chapter11：** 基于 spring-boot2.x 整合了 `RabbitMQ` 案例
 - **chapter12：** 基于 spring-boot2.x 整合了 `RabbitMQ 延迟队列` 案例
+- **chapter13：** 基于 spring-boot2.x 整合了 `spring-boot-admin` 监控
