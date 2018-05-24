@@ -33,7 +33,10 @@ public class BookController {
      * this.rabbitTemplate.convertAndSend(RabbitConfig.REGISTER_DELAY_EXCHANGE, RabbitConfig.DELAY_ROUTING_KEY, book); 对应 {@link BookHandler#listenerDelayQueue}
      */
     @GetMapping
-    public void defaultMessage(@RequestBody Book book) {
+    public void defaultMessage() {
+        Book book = new Book();
+        book.setId("1");
+        book.setName("一起来学Spring Boot");
         // 添加延时队列
         this.rabbitTemplate.convertAndSend(RabbitConfig.REGISTER_DELAY_EXCHANGE, RabbitConfig.DELAY_ROUTING_KEY, book, message -> {
             // TODO 第一句是可要可不要,根据自己需要自行处理
