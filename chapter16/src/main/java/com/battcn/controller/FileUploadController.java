@@ -1,10 +1,10 @@
 package com.battcn.controller;
 
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Base64Utils;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,7 +40,7 @@ public class FileUploadController {
         log.info("[文件名称] - [{}]", file.getOriginalFilename());
         log.info("[文件大小] - [{}]", file.getSize());
         // TODO 将文件写入到指定目录（具体开发中有可能是将文件写入到云存储/或者指定目录通过 Nginx 进行 gzip 压缩和反向代理，此处只是为了演示故将地址写成本地电脑指定目录）
-        FileUtils.copyInputStreamToFile(file.getInputStream(), new File("F:\\app\\chapter16\\" + file.getOriginalFilename()));
+        file.transferTo(new File("F:\\app\\chapter16\\" + file.getOriginalFilename()));
         Map<String, String> result = new HashMap<>(16);
         result.put("contentType", file.getContentType());
         result.put("fileName", file.getOriginalFilename());
@@ -56,7 +56,8 @@ public class FileUploadController {
         }
         List<Map<String, String>> results = new ArrayList<>();
         for (MultipartFile file : files) {
-            FileUtils.copyInputStreamToFile(file.getInputStream(), new File("F:\\app\\chapter16\\" + file.getOriginalFilename()));
+            // TODO Spring Mvc 提供的写入方式
+            file.transferTo(new File("F:\\app\\chapter16\\" + file.getOriginalFilename()));
             Map<String, String> map = new HashMap<>(16);
             map.put("contentType", file.getContentType());
             map.put("fileName", file.getOriginalFilename());
@@ -73,7 +74,9 @@ public class FileUploadController {
         final File tempFile = new File("F:\\app\\chapter16\\test.jpg");
         // TODO 防止有的传了 data:image/png;base64, 有的没传的情况
         String[] d = base64.split("base64,");
-        FileUtils.writeByteArrayToFile(tempFile, Base64Utils.decodeFromString(d.length > 1 ? d[1] : d[0]));
+        final byte[] bytes = Base64Utils.decodeFromString(d.length > 1 ? d[1] : d[0]);
+        FileCopyUtils.copy(bytes, tempFile);
+
     }
 
 
