@@ -23,13 +23,13 @@ import java.lang.reflect.Method;
 public class LockMethodInterceptor {
 
     @Autowired
-    public LockMethodInterceptor(StringRedisTemplate lockRedisTemplate, CacheKeyGenerator lockKeyGenerator) {
+    public LockMethodInterceptor(StringRedisTemplate lockRedisTemplate, CacheKeyGenerator cacheKeyGenerator) {
         this.lockRedisTemplate = lockRedisTemplate;
-        this.lockKeyGenerator = lockKeyGenerator;
+        this.cacheKeyGenerator = cacheKeyGenerator;
     }
 
     private final StringRedisTemplate lockRedisTemplate;
-    private final CacheKeyGenerator lockKeyGenerator;
+    private final CacheKeyGenerator cacheKeyGenerator;
 
 
     @Around("execution(public * *(..)) && @annotation(com.battcn.annotation.CacheLock)")
@@ -40,7 +40,7 @@ public class LockMethodInterceptor {
         if (StringUtils.isEmpty(lock.prefix())) {
             throw new RuntimeException("lock key don't null...");
         }
-        final String lockKey = lockKeyGenerator.getLockKey(pjp);
+        final String lockKey = cacheKeyGenerator.getLockKey(pjp);
         try {
             final Boolean success = lockRedisTemplate.opsForValue().setIfAbsent(lockKey, "1");
             if (!success) {

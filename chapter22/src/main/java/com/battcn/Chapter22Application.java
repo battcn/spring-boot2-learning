@@ -19,8 +19,8 @@ public class Chapter22Application {
 
     }
 
-    @Bean("lockKeyGenerator")
-    public CacheKeyGenerator lockKeyGenerator() {
+    @Bean
+    public CacheKeyGenerator cacheKeyGenerator() {
         return new LockKeyGenerator();
     }
 
