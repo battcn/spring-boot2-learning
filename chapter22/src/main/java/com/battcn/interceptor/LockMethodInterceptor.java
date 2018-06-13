@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
 import java.lang.reflect.Method;
 
 /**
- * 本章先基于 本地缓存来做，后续讲解 redis 方案
+ * redis 方案
  *
  * @author Levin
  * @since 2018/6/12 0012
