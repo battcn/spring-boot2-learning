@@ -23,5 +23,4 @@ public class Chapter22Application {
     public CacheKeyGenerator cacheKeyGenerator() {
         return new LockKeyGenerator();
     }
-
 }

@@ -1,19 +1,17 @@
 package com.battcn.interceptor;
 
 import com.battcn.annotation.CacheLock;
+import com.battcn.utils.RedisLockHelper;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisStringCommands;
-import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
+import java.util.UUID;
 
 /**
  * redis 方案
@@ -26,12 +24,12 @@ import java.lang.reflect.Method;
 public class LockMethodInterceptor {
 
     @Autowired
-    public LockMethodInterceptor(StringRedisTemplate lockRedisTemplate, CacheKeyGenerator cacheKeyGenerator) {
-        this.lockRedisTemplate = lockRedisTemplate;
+    public LockMethodInterceptor(RedisLockHelper redisLockHelper, CacheKeyGenerator cacheKeyGenerator) {
+        this.redisLockHelper = redisLockHelper;
         this.cacheKeyGenerator = cacheKeyGenerator;
     }
 
-    private final StringRedisTemplate lockRedisTemplate;
+    private final RedisLockHelper redisLockHelper;
     private final CacheKeyGenerator cacheKeyGenerator;
 
 
@@ -44,12 +42,12 @@ public class LockMethodInterceptor {
             throw new RuntimeException("lock key don't null...");
         }
         final String lockKey = cacheKeyGenerator.getLockKey(pjp);
+        String value = UUID.randomUUID().toString();
         try {
-            // 采用原生 API 来实现分布式锁
-            final Boolean success = lockRedisTemplate.execute((RedisCallback<Boolean>) connection -> connection.set(lockKey.getBytes(), new byte[0], Expiration.from(lock.expire(), lock.timeUnit()), RedisStringCommands.SetOption.SET_IF_ABSENT));
+            // 假设上锁成功，但是设置过期时间失效，以后拿到的都是 false
+            final boolean success = redisLockHelper.lock(lockKey, value, lock.expire(), lock.timeUnit());
             if (!success) {
-                // TODO 按理来说 我们应该抛出一个自定义的 CacheLockException 异常;这里偷下懒
-                throw new RuntimeException("请勿重复请求");
+                throw new RuntimeException("重复提交");
             }
             try {
                 return pjp.proceed();
@@ -58,7 +56,7 @@ public class LockMethodInterceptor {
             }
         } finally {
             // TODO 如果演示的话需要注释该代码;实际应该放开
-            // lockRedisTemplate.delete(lockKey);
+            redisLockHelper.unlock(lockKey, value);
         }
     }
 }
