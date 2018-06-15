@@ -7,7 +7,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisStringCommands;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
@@ -42,12 +45,12 @@ public class LockMethodInterceptor {
         }
         final String lockKey = cacheKeyGenerator.getLockKey(pjp);
         try {
-            final Boolean success = lockRedisTemplate.opsForValue().setIfAbsent(lockKey, "1");
+            // 采用原生 API 来实现分布式锁
+            final Boolean success = lockRedisTemplate.execute((RedisCallback<Boolean>) connection -> connection.set(lockKey.getBytes(), new byte[0], Expiration.from(lock.expire(), lock.timeUnit()), RedisStringCommands.SetOption.SET_IF_ABSENT));
             if (!success) {
                 // TODO 按理来说 我们应该抛出一个自定义的 CacheLockException 异常;这里偷下懒
                 throw new RuntimeException("请勿重复请求");
             }
-            lockRedisTemplate.expire(lockKey, lock.expire(), lock.timeUnit());
             try {
                 return pjp.proceed();
             } catch (Throwable throwable) {
