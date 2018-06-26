@@ -35,8 +35,8 @@
 - **chapter18：** [一起来学Spring Boot | 第十九篇：轻松搞定数据验证（一）](http://blog.battcn.com/2018/06/05/springboot/v2-other-validate1/)
 - **chapter19：** [一起来学Spring Boot | 第二十篇：轻松搞定数据验证（二）](http://blog.battcn.com/2018/06/06/springboot/v2-other-validate2/)
 - **chapter20：** [一起来学Spring Boot | 第二十一篇：轻松搞定数据验证（三）](http://blog.battcn.com/2018/06/07/springboot/v2-other-validate3/)
-- **chapter21：** [一起来学Spring Boot | 第二十二篇：轻松搞定重复提交（本地锁）](http://blog.battcn.com/2018/06/20/springboot/v2-other-liquibase/)
+- **chapter21：** [一起来学Spring Boot | 第二十二篇：轻松搞定重复提交（本地锁）](http://blog.battcn.com/2018/06/12/springboot/v2-cache-locallock/)
 - **chapter22：** [一起来学Spring Boot | 第二十三篇：轻松搞定重复提交（分布式锁）](http://blog.battcn.com/2018/06/13/springboot/v2-cache-redislock/)
-- **chapter23：** [一起来学Spring Boot | 第二十四篇：数据库管理与迁移（Liquibase）](http://blog.battcn.com/2018/06/12/springboot/v2-cache-locallock/)
+- **chapter23：** [一起来学Spring Boot | 第二十四篇：数据库管理与迁移（Liquibase）](http://blog.battcn.com/2018/06/20/springboot/v2-other-liquibase/)
 - **chapter24：** [一起来学Spring Boot | 第二十五篇：打造属于自己的聊天室（WebSocket）]()
 
