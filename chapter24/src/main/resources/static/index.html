@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>battcn websocket</title>
+  <script src="jquery-3.2.1.min.js" ></script>
+</head>
+<body>
+
+<label for="message_content">聊&nbsp;&nbsp;天&nbsp;&nbsp;室&nbsp;</label><textarea id="message_content" readonly="readonly" cols="57" rows="10">
+
+</textarea>
+
+<br/>
+
+
+<label for="in_user_name">用户姓名 &nbsp;</label><input id="in_user_name" value=""/>
+<button id="btn_join">加入聊天室</button>
+<button id="btn_exit">离开聊天室</button>
+
+<br/><br/>
+
+<label for="in_msg">群发消息 &nbsp;</label><input id="in_msg" value=""/>
+<button id="btn_send_all">发送消息</button>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var urlPrefix ='ws://127.0.0.1:8080/chat-room//';
+        var ws = null;
+        $('#btn_join').click(function(){
+            var username = $('#in_user_name').val();
+            var url = urlPrefix + username;
+            ws = new WebSocket(url);
+            ws.onopen = function () {
+                console.log("建立 websocket 连接...");
+            };
+            ws.onmessage = function(event){
+                //服务端发送的消息
+                $('#message_content').append(event.data+'\n');
+            };
+            ws.onclose = function(){
+                 $('#message_content').append('用户['+username+'] 已经离开聊天室!');
+                 console.log("关闭 websocket 连接...");
+            }
+        });
+        //客户端发送消息到服务器
+        $('#btn_send_all').click(function(){
+            var msg = $('#in_msg').val();
+            if(ws){
+                ws.send(msg);
+            }
+        });
+        // 退出聊天室
+        $('#btn_exit').click(function(){
+            if(ws){
+                ws.close();
+            }
+        });
+    })
+</script>
+
+</body>
+
+</html>
