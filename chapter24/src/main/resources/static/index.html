@@ -20,7 +20,7 @@
 
 <br/><br/>
 
-<label for="in_msg">群发消息 &nbsp;</label><input id="in_msg" value=""/>
+<label for="in_room_msg">群发消息 &nbsp;</label><input id="in_room_msg" value=""/>
 <button id="btn_send_all">发送消息</button>
 
 
@@ -28,13 +28,15 @@
 
 好友聊天
 <br/>
-<label for="sender">发送者 &nbsp;</label><input id="sender" value=""/><br/>
-<label for="receive">接受者 &nbsp;</label><input id="receive" value=""/><br/>
-<label for="message">消息体 &nbsp;</label><input id="message" value=""/><button id="btn_send_point">发送消息</button>
+<label for="in_sender">发送者 &nbsp;</label><input id="in_sender" value=""/><br/>
+<label for="in_receive">接受者 &nbsp;</label><input id="in_receive" value=""/><br/>
+<label for="in_point_message">消息体 &nbsp;</label><input id="in_point_message" value=""/><button id="btn_send_point">发送消息</button>
+
+</body>
 
 <script type="text/javascript">
     $(document).ready(function(){
-        var urlPrefix ='ws://127.0.0.1:8080/chat-room//';
+        var urlPrefix ='ws://127.0.0.1:8080/chat-room/';
         var ws = null;
         $('#btn_join').click(function(){
             var username = $('#in_user_name').val();
@@ -54,7 +56,7 @@
         });
         //客户端发送消息到服务器
         $('#btn_send_all').click(function(){
-            var msg = $('#in_msg').val();
+            var msg = $('#in_room_msg').val();
             if(ws){
                 ws.send(msg);
             }
@@ -67,9 +69,9 @@
         });
 
         $("#btn_send_point").click(function() {
-           var sender = $("#sender").val();
-           var receive = $("#receive").val();
-            var message = $("#message").val();
+           var sender = $("#in_sender").val();
+           var receive = $("#in_receive").val();
+            var message = $("#in_point_message").val();
            $.get("/chat-room/"+sender+"/to/"+receive+"?message="+message,function() {
               alert("发送成功...")
            })
@@ -77,7 +79,5 @@
 
     })
 </script>
-
-</body>
 
 </html>
