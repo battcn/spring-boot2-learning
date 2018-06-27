@@ -23,6 +23,15 @@
 <label for="in_msg">群发消息 &nbsp;</label><input id="in_msg" value=""/>
 <button id="btn_send_all">发送消息</button>
 
+
+<br/><br/><br/>
+
+好友聊天
+<br/>
+发送者 &nbsp;<input id="sender" value=""/><br/>
+接受者 &nbsp;<input id="receive" value=""/><br/>
+消息体 &nbsp;<input id="message" value=""/><button id="btn_send_point">发送消息</button>
+
 <script type="text/javascript">
     $(document).ready(function(){
         var urlPrefix ='ws://127.0.0.1:8080/chat-room//';
@@ -56,6 +65,16 @@
                 ws.close();
             }
         });
+
+        $("#btn_send_point").click(function() {
+           var sender = $("#sender").val();
+           var receive = $("#receive").val();
+            var message = $("#message").val();
+           $.get("/chat-room/"+sender+"/to/"+receive+"?message="+message,function() {
+              alert("发送成功...")
+           })
+        })
+
     })
 </script>
 

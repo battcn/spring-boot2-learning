@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class WebSocketUtils {
 
     /**
-     * 
+     * 模拟存储 websocket session 使用
      */
     public static final Map<String, Session> LIVING_SESSIONS_CACHE = new ConcurrentHashMap<>();
 
@@ -28,7 +28,13 @@ public final class WebSocketUtils {
      * @param message 发送内容
      */
     public static void sendMessage(Session session, String message) {
+        if (session == null) {
+            return;
+        }
         final RemoteEndpoint.Basic basic = session.getBasicRemote();
+        if (basic == null) {
+            return;
+        }
         try {
             basic.sendText(message);
         } catch (IOException e) {
