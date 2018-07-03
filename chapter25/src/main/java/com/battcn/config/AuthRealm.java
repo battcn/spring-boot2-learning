@@ -8,6 +8,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.*;
@@ -44,6 +45,7 @@ public class AuthRealm extends AuthorizingRealm {
         // 当用户执行登录时,在方法处理上要实现 user.login(token)
         // 然后会自动进入这个类进行认证
         // 交给 AuthenticatingRealm 使用 CredentialsMatcher 进行密码匹配，如果觉得人家的不好可以自定义实现
+        // TODO 如果使用 HashedCredentialsMatcher 这里认证方式就要改一下 SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(principal, "密码", ByteSource.Util.bytes("密码盐"), getName());
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(principal, user.getPassword(), getName());
         Session session = SecurityUtils.getSubject().getSession();
         session.setAttribute("USER_SESSION", user);
