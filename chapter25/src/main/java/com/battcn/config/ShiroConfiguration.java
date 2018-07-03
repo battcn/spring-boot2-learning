@@ -1,7 +1,6 @@
 package com.battcn.config;
 
 
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -13,7 +12,6 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -120,7 +118,6 @@ public class ShiroConfiguration {
         log.info("##################从数据库读取权限规则，加载到shiroFilter中##################");
 
         // 不用注解也可以通过 API 方式加载权限规则
-        final Map<String, Collection<String>> permissionsCache = DBCache.PERMISSIONS_CACHE;
         Map<String, String> permissions = new LinkedHashMap<>();
         permissions.put("/users/find", "perms[user:find]");
         filterChainDefinitionMap.putAll(permissions);
