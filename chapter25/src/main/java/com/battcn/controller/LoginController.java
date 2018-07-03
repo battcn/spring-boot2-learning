@@ -21,19 +21,19 @@ public class LoginController {
 
     @GetMapping(value = "/hello")
     public String hello() {
-
+        log.info("不登录也可以访问...");
         return "hello...";
     }
 
     @GetMapping(value = "/index")
     public String index() {
-
+        log.info("登陆成功了...");
         return "index";
     }
 
     @GetMapping(value = "/denied")
     public String denied() {
-
+        log.info("小伙子权限不足,别无谓挣扎了...");
         return "denied...";
     }
 
