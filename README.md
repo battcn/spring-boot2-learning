@@ -40,5 +40,9 @@
 - **chapter23：** [一起来学Spring Boot | 第二十四篇：数据库管理与迁移（Liquibase）](http://blog.battcn.com/2018/06/20/springboot/v2-other-liquibase/)
 - **chapter24：** [一起来学Spring Boot | 第二十五篇：打造属于自己的聊天室（WebSocket）](https://github.com/battcn/spring-boot2-learning/tree/master/chapter24)
 - **chapter25：** [一起来学Spring Boot | 第二十六篇：轻松搞定安全框架（Shiro）](https://github.com/battcn/spring-boot2-learning/tree/master/chapter25)
+- **chapter26：** [限流探索](https://github.com/battcn/spring-boot2-learning/tree/master/chapter26)
+- **chapter27：** [一起来学SpringBoot | 第二十七篇：优雅解决分布式限流](https://github.com/battcn/spring-boot2-learning/tree/master/chapter27)
+
+
 
 
